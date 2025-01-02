@@ -48,7 +48,7 @@ func ReadConfigFromFile(file string) (*Config, error) {
 
 func main() {
 	http.HandleFunc("/config", func(w http.ResponseWriter, r *http.Request) {
-        enableCors(&w)
+		enableCors(&w)
 		if r.Method != http.MethodGet {
 			http.Error(w, "Method is not allowed", http.StatusMethodNotAllowed)
 			return
