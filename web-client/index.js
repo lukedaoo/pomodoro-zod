@@ -2,6 +2,15 @@ function $(id) {
     return document.getElementById(id);
 }
 
+const DEFAULT_CONFIG = {
+    circleRadius: 230,
+    timer: {
+        interval: 25, // minutes
+        shortBreak: 5, // minutes
+        longBreak: 15  // minutes
+    }
+}
+
 function initState(appConfig) {
     return {
         runningIntervalId: -1,
@@ -49,17 +58,20 @@ function initState(appConfig) {
     }
 }
 
-
-const config = {
-    circleRadius: 230,
-    timer: {
-        interval: 25, // minutes
-        shortBreak: 5, // minutes
-        longBreak: 15  // minutes
+async function getConfig() {
+    const SERVER = "http://localhost:3000/config";
+    try {
+        const response = await fetch(SERVER);
+        if (!response.ok) {
+            throw new Error("Status:" + response.status);
+        }
+        const json = await response.json();
+        return json;
+    } catch (err) {
+        console.error(err.message);
     }
 }
 
-let state = initState(config);
 
 const app = {
     init: function(state) {
@@ -187,9 +199,15 @@ const timer = {
     }
 }
 
-app.init(state);
+let config;
+let state;
+async function init() {
+    config = await getConfig() || DEFAULT_CONFIG;
+    state = initState(config);
+    app.init(state);
+}
 
-document.body.addEventListener("click", utils.enableSound, { once: true });
+init();
 
 $("timer-container-div").addEventListener("click", () => {
     if (state.isRunning()) {
@@ -245,6 +263,7 @@ $("long-break-label").addEventListener("click", () => {
     timer.reset();
 });
 
+document.body.addEventListener("click", utils.enableSound, { once: true });
 document.addEventListener("visibilitychange", function() {
     if (!document.hidden && state.runningIntervalId != -1) {
         clearInterval(state.runningIntervalId);

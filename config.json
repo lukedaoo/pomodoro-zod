@@ -1,0 +1,8 @@
+{
+  "circleRadius": 230,
+  "timer": {
+    "interval": 2500,
+    "shortBreak": 50,
+    "longBreak": 15
+  }
+}
