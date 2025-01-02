@@ -10,26 +10,8 @@ The **Pomodoro Timer Application** is a time management tool built using **pure 
 
 ## To do 
 
-### Front-End (Web App)
+### Front-End (Web App) - done xD (too lazy to add features)
 
-- **Multiple Themes**  
-  Toggle between **Light** and **Dark** themes for personalized user experience.
-
-~~- **Break Session** 
-  Customize short and long break sessions alongside the work sessions.~~
-
-- **Session Tracking**  
-  Keep track of sessions, tasks, and periods to monitor productivity.
-
-- **Settings**  
-  Adjust periods for work, short breaks, and long breaks.
-
-### Back-End (Go Lang)
-
-- **Data Storage**  
-  Store session data in a database for later review.
-
-- **Exporting Data**  
-  Export session tracking data for analysis or reporting.
+### Back-End (Go Lang) - get and save config
 
 ---
