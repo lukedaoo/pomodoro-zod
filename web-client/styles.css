@@ -1,0 +1,107 @@
+:root {
+    --light-cyan: #e0fbfcff;
+    --light-blue: #c2dfe3ff;
+    --cadet-gray: #9db4c0ff;
+    --paynes-gray: #5c6b73ff;
+    --gunmetal: #253237ff;
+    --light-orange: #F0907A;
+    --orange: #F07A60;
+
+    --global-bg-color: var(--gunmetal);
+    --global-text-color: var(--light-cyan);
+}
+html {
+    background-color: var(--global-bg-color);
+    color: var(--global-text-color);
+
+    /*DEBUG border: 2px solid red; */
+}
+
+.row {
+    display: flex;
+}   
+
+.col {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+}
+
+.center {
+    display: flex; 
+    justify-content: center;
+}
+
+.app-title {
+    justify-content: center;
+    text-align: center;
+}
+
+
+.timer-container {
+    align-items: center;
+    position: relative; 
+    display: inline-flex; 
+    justify-content: center; 
+    padding: 10px
+}
+
+.timer-text-container {
+    position: absolute; 
+    text-align: center; 
+    display: flex; 
+    margin-top: 5px;
+    font-size: 66px;
+}
+
+.timer-stroke-container {
+    transform: rotate(-90deg); 
+    height: 520px; 
+    width: 520px
+}
+
+#start-pause-label {
+    position: absolute;
+    top: 60%; 
+    left: 50%;
+    transform: translateX(-50%);
+    border: none;
+    border-radius: 50%;
+    color: var(--color4); 
+    font-size: 66px; 
+    padding: 15px;
+    display: none; 
+    z-index: 10;
+    transition: background-color 0.3s ease; 
+}
+
+.timer-container:hover #start-pause-label{
+    display: block;
+}
+
+.restart-button {
+    font-size: 24px; 
+    padding: 12px 24px; 
+    background-color: var(--orange);
+    color: white; 
+    border: none; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+}
+
+.restart-button:hover {
+    background-color: var(--light-orange);
+}
+
+.restart-button:focus {
+    outline: none; 
+}
+
+.hidden {
+    display: none;
+}
+
+.show{
+    display: block;
+}

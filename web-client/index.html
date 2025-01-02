@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="LD" />
+    <title>Pomodoro</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+    <div id="title-div">
+        <h1 id="title" class="app-title">Just #Pomodoro</h1>
+    </div>
+    <div class="row">
+        <div class="col"></div>
+        <div class="timer-container" id="timer-container-div">
+            <svg class="timer-stroke-container" xmlns='http://www.w3.org/2000/svg'>
+                <g>
+                    <ellipse id="base-circle" ry="230" rx="230" cy="260" cx="260" stroke-width="8" stroke="#F0907A"
+                        fill='transparent' />
+                    <ellipse id="stroke-circle" ry="230" rx="230" cy="260" cx="260" stroke-width="8" stroke='#DBDBDB'
+                        fill='transparent' />
+                </g>
+            </svg>
+            <div class="timer-text-container">
+                <label id="timer-text-label"></label>
+                <label id="start-pause-label">⏵</label>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+    <div class="row">
+        <div class="col"></div>
+        <div class="center">
+            <label id="restart-label" class="restart-button">Restart</label>
+        </div>
+        <div class="col"></div>
+    </div>
+    <script src="index.js"></script>
+    <audio id="alarm-sound" preload="auto">
+        <source src="alarm-sound.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+</body>
+
+</body>
+
+</html>
