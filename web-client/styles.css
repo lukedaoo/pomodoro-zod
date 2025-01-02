@@ -10,11 +10,11 @@
     --global-bg-color: var(--gunmetal);
     --global-text-color: var(--light-cyan);
 }
-html {
+html, body {
     background-color: var(--global-bg-color);
     color: var(--global-text-color);
-
-    /*DEBUG border: 2px solid red; */
+    height: 100vh;
+    margin: 0;
 }
 
 .row {
@@ -37,6 +37,52 @@ html {
     text-align: center;
 }
 
+
+#settings-label {
+    top: 20px;
+    position: absolute;
+    right: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#settings-label img {
+    width: 24px;
+    height: 24px;
+    transition: fill 0.3s ease;
+}
+
+.svg {
+    filter: invert(88%) sepia(8%) saturate(224%) hue-rotate(174deg) brightness(98%) contrast(101%);
+}
+
+
+.settings-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.settings-container label{
+    margin-right: 10px;
+}
+
+.settings-container input {
+    width: 50px;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.duration-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
 
 .timer-container {
     align-items: center;
@@ -79,8 +125,8 @@ html {
     display: block;
 }
 
-.restart-button {
-    font-size: 24px; 
+.button {
+    font-size: 18px; 
     padding: 12px 24px; 
     background-color: var(--orange);
     color: white; 
@@ -88,13 +134,15 @@ html {
     border-radius: 8px; 
     cursor: pointer; 
     transition: background-color 0.3s ease; 
+    display: inline-block;
+    margin: 4px 2px;
 }
 
-.restart-button:hover {
+.button:hover {
     background-color: var(--light-orange);
 }
 
-.restart-button:focus {
+.button:focus {
     outline: none; 
 }
 

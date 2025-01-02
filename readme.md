@@ -15,8 +15,8 @@ The **Pomodoro Timer Application** is a time management tool built using **pure 
 - **Multiple Themes**  
   Toggle between **Light** and **Dark** themes for personalized user experience.
 
-- **Break Session**  
-  Customize short and long break sessions alongside the work sessions.
+~~- **Break Session** 
+  Customize short and long break sessions alongside the work sessions.~~
 
 - **Session Tracking**  
   Keep track of sessions, tasks, and periods to monitor productivity.

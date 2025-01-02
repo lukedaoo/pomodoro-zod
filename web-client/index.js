@@ -5,21 +5,57 @@ function $(id) {
 function initState(appConfig) {
     return {
         runningIntervalId: -1,
-        timerContext: {
+        runningTimerContext: {
             totalSeconds: appConfig.timer.interval * 60,
-            secondsRemain: appConfig.timer.interval * 60
+            secondsRemain: appConfig.timer.interval * 60,
         },
+        timerContext: {
+            intervalSeconds: appConfig.timer.interval * 60,
+            shortBreakSeconds: appConfig.timer.shortBreak * 60,
+            longBreakSeconds: appConfig.timer.longBreak * 60
+        },
+        mode: "pomodoro",
         perimeterProgress: 2 * appConfig.circleRadius * Math.PI,
+        showingSettings: false,
         isRunning: function() {
             return this.runningIntervalId > 0
+        },
+        changeMode: function(mode) {
+            this.mode = mode;
+            switch (this.mode) {
+                case "pomodoro": {
+                    this.runningTimerContext = {
+                        totalSeconds: this.timerContext.intervalSeconds,
+                        secondsRemain: this.timerContext.intervalSeconds
+                    }
+                    break;
+                }
+                case "short-break": {
+                    this.runningTimerContext = {
+                        totalSeconds: this.timerContext.shortBreakSeconds,
+                        secondsRemain: this.timerContext.shortBreakSeconds
+                    }
+                    break;
+                }
+                case "long-break": {
+                    this.runningTimerContext = {
+                        totalSeconds: this.timerContext.longBreakSeconds,
+                        secondsRemain: this.timerContext.longBreakSeconds
+                    }
+                    break;
+                }
+            }
         }
     }
 }
+
 
 const config = {
     circleRadius: 230,
     timer: {
         interval: 25, // minutes
+        shortBreak: 5, // minutes
+        longBreak: 15  // minutes
     }
 }
 
@@ -27,7 +63,7 @@ let state = initState(config);
 
 const app = {
     init: function(state) {
-        utils.updateTimerTextWithSeconds(state.timerContext.totalSeconds);
+        utils.updateTimerTextWithSeconds(state.runningTimerContext.totalSeconds);
         $("stroke-circle").style.strokeDasharray = state.perimeterProgress
         document.title = "Pomodoro";
     },
@@ -35,10 +71,10 @@ const app = {
         clearInterval(state.runningIntervalId);
         utils.stopSound();
 
-        let timerContext = state.timerContext;
-        timerContext.perimeter = state.perimeterProgress;
+        let runningTimerContext = state.runningTimerContext;
+        runningTimerContext.perimeter = state.perimeterProgress;
 
-        state.runningIntervalId = timer.run(timerContext);
+        state.runningIntervalId = timer.run(runningTimerContext);
         utils.toggleStartPauseButton(state);
     },
     pause: function(state) {
@@ -50,12 +86,12 @@ const app = {
 }
 
 const utils = {
-    updateTimerContext: function(timerContext) {
-        if (timerContext != undefined && timerContext.totalSeconds != undefined) {
-            state.timerContext.totalSeconds = timerContext.totalSeconds;
+    updateTimerContext: function(runningTimerContext) {
+        if (runningTimerContext != undefined && runningTimerContext.totalSeconds != undefined) {
+            state.runningTimerContext.totalSeconds = runningTimerContext.totalSeconds;
         }
-        if (timerContext != undefined && timerContext.secondsRemain != undefined) {
-            state.timerContext.secondsRemain = timerContext.secondsRemain;
+        if (runningTimerContext != undefined && runningTimerContext.secondsRemain != undefined) {
+            state.runningTimerContext.secondsRemain = runningTimerContext.secondsRemain;
         }
     },
     getTime: function(seconds) {
@@ -104,7 +140,17 @@ const utils = {
         const alarm = $("alarm-sound");
         alarm.pause();
         alarm.currentTime = 0;
-    }
+    },
+    toggleSettings: function(state) {
+        if (state.showingSettings) {
+            $("settings-container-div").style.display = "none";
+            state.showingSettings = false;
+        } else {
+            $("settings-container-div").style.display = "block";
+            state.showingSettings = true;
+        }
+
+    },
 }
 
 const timer = {
@@ -132,11 +178,7 @@ const timer = {
         }, 1 * 1000); // 1 seconds
     },
     reset: function() {
-        state.timerContext = {
-            totalSeconds: state.timerContext.totalSeconds,
-            secondsRemain: state.timerContext.totalSeconds
-        };
-        utils.updateTimerTextWithSeconds(state.timerContext.totalSeconds);
+        utils.updateTimerTextWithSeconds(state.runningTimerContext.totalSeconds);
         utils.updateProgressWithWidth(0);
         utils.updateTitle("Pomodoro");
 
@@ -160,9 +202,48 @@ $("timer-container-div").addEventListener("click", () => {
 
 $("restart-label").addEventListener("click", () => {
     app.pause(state)
+    state.changeMode("pomodoro");
     app.init(state);
     timer.reset();
 })
+
+$("settings-label").addEventListener("click", () => {
+    utils.toggleSettings(state);
+});
+
+$("apply-label").addEventListener("click", () => {
+    const pomodoroInterval = $("pomodoro-interval-input").value;
+    const shortBreakInterval = $("short-break-interval-input").value;
+    const longBreakInterval = $("long-break-interval-input").value;
+
+    config.timer = {
+        interval: pomodoroInterval,
+        shortBreak: shortBreakInterval,
+        longBreak: longBreakInterval
+    }
+
+    app.pause(state);
+    state = initState(config);
+    app.init(state);
+    timer.reset();
+
+    state.showingSettings = true;
+    utils.toggleSettings(state);
+});
+
+$("short-break-label").addEventListener("click", () => {
+    app.pause(state);
+    state.changeMode("short-break");
+    app.init(state);
+    timer.reset();
+});
+
+$("long-break-label").addEventListener("click", () => {
+    app.pause(state);
+    state.changeMode("long-break");
+    app.init(state);
+    timer.reset();
+});
 
 document.addEventListener("visibilitychange", function() {
     if (!document.hidden && state.runningIntervalId != -1) {
