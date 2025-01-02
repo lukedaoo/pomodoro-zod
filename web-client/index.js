@@ -19,7 +19,7 @@ function initState(appConfig) {
 const config = {
     circleRadius: 230,
     timer: {
-        interval: 0.1, // minutes
+        interval: 25, // minutes
     }
 }
 
@@ -165,7 +165,7 @@ $("restart-label").addEventListener("click", () => {
 })
 
 document.addEventListener("visibilitychange", function() {
-    if (!document.hidden && state.runningIntervalId) {
+    if (!document.hidden && state.runningIntervalId != -1) {
         clearInterval(state.runningIntervalId);
         app.start({ state: state, timer: timer });
     }
