@@ -10,7 +10,7 @@ The **Pomodoro Timer Application** is a time management tool built using **pure 
 
 ## To do 
 
-### Front-End (Web App) - done xD (too lazy to add features)
+### Front-End (Web App) - done xD (it's good enough))
 
 ### Back-End (Go Lang) - get and save config
 

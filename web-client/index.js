@@ -65,8 +65,7 @@ async function getConfig() {
         if (!response.ok) {
             throw new Error("Status:" + response.status);
         }
-        const json = await response.json();
-        return json;
+        return await response.json();
     } catch (err) {
         console.error(err.message);
     }
