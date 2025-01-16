@@ -83,6 +83,7 @@ const app = {
         utils.stopSound();
 
         let runningTimerContext = state.runningTimerContext;
+        runningTimerContext.secondsRemain = runningTimerContext.totalSeconds;
         runningTimerContext.perimeter = state.perimeterProgress;
 
         state.runningIntervalId = timer.run(runningTimerContext);
