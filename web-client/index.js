@@ -71,6 +71,18 @@ async function getConfig() {
     }
 }
 
+const db = {
+    load: function() {
+        const configFromLs = localStorage.getItem("config");
+        if (configFromLs) {
+            return JSON.parse(configFromLs);
+        }
+        return DEFAULT_CONFIG;
+    },
+    save: function() {
+        localStorage.setItem("config", JSON.stringify(config));
+    }
+}
 
 const app = {
     init: function(state) {
@@ -204,7 +216,7 @@ const timer = {
 let config;
 let state;
 async function init() {
-    config = await getConfig() || DEFAULT_CONFIG;
+    config = await getConfig() || db.load();
     state = initState(config);
     app.init(state);
 }
@@ -241,6 +253,8 @@ $("apply-label").addEventListener("click", () => {
         shortBreak: shortBreakInterval,
         longBreak: longBreakInterval
     }
+
+    db.save();
 
     app.pause(state);
     state = initState(config);
